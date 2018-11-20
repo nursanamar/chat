@@ -12,14 +12,13 @@ class Message extends Component {
             messages : [],
             isLoading: true
         }
-
     }
 
     componentDidMount(){
         let messages = getMessages();
         this.setState({
             messages: messages
-        })
+        })   
     }
 
     render(){
@@ -39,7 +38,7 @@ class Message extends Component {
                 /> 
                 </Link>
             )
-        })
+        }) 
         return (
             <div>
                 <Header title="Pesan" >

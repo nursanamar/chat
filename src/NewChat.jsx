@@ -8,6 +8,8 @@ class NewChat extends Component{
         this.state = {
             id:''
         }
+
+        console.log(this.props)
     }
 
     handleInput(e){
