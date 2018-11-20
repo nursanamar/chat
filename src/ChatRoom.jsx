@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
 import { MessageList } from "react-chat-elements";
-import { getChats } from "./utils/storage";
+import { getChats,newChat } from "./utils/model/Chat";
 import Header from "./Component/Header";
 import { Link } from "react-router-dom";
 
 class ChatRoom extends Component {
     constructor(props){
         super(props);
+        this.param = this.props.match.params;
         this.state = {
             chats : [],
             textInput : '',
         }
 
-        this.param = this.props.match.params;
     }
 
     componentDidMount(){
         let chats = getChats(this.param.id);
         let temp = [];
-        // console.log(chats)
         chats.forEach(chat => {
+            
             temp.push({
                 position: (chat.isSelf) ? 'right' : 'left',
                 type: 'text',
                 text: chat.text,
-                date: chat.date
+                date: new Date(chat.date)
             })
         });
 
@@ -41,7 +41,7 @@ class ChatRoom extends Component {
             position: (true) ? 'right' : 'left',
             type: 'text',
             text: this.state.textInput,
-            date: new Date()
+            date: Date.now()
         }
 
         prevState.push(chat);
@@ -49,20 +49,26 @@ class ChatRoom extends Component {
             chat: prevState,
             textInput: ''
         })
+
+        newChat(this.param.id,{
+            text: chat.text,
+            isSelf: true,
+            date: chat.date
+        })
         
     }
 
     render(){
         return (
-            <div style={{height:window.innerHeight}} >
+            <div style={{height: window.innerHeight / 10}}>
                 <div className="row">
-                    <Header title="Fula" >
+                    <Header title={this.param.id} >
                        <Link to="/" style={{color:"white"}} >
                             <h4>Kembali</h4>
                        </Link>
                     </Header>
                 </div>
-                <div className="row" >
+                <div style={{ height: (window.innerHeight / 10) * 8, overflowY:"scroll" }} className="row" >
                     <MessageList
                         className='message-list'
                         lockable={true}

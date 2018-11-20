@@ -1,7 +1,7 @@
 import React,{ Component } from "react";
 import { ChatItem } from "react-chat-elements";
 import 'react-chat-elements/dist/main.css';
-import {getMessages } from "./utils/storage";
+import {getMessages} from "./utils/model/Messages";
 import { Link } from "react-router-dom";
 import Header from "./Component/Header";
 
@@ -12,6 +12,7 @@ class Message extends Component {
             messages : [],
             isLoading: true
         }
+
     }
 
     componentDidMount(){
@@ -24,6 +25,7 @@ class Message extends Component {
     render(){
         let chatItems = [];
         let messages = this.state.messages;
+        messages.reverse();
         messages.forEach((messege,key) => {
             chatItems.push(
                 <Link key={key} to={"/chat/"+messege.id} >
@@ -40,7 +42,9 @@ class Message extends Component {
         })
         return (
             <div>
-                <Header title="Pesan" />
+                <Header title="Pesan" >
+                    <Link to="/new" ><h4>Peasn Baru</h4></Link>
+                </Header>
                  {chatItems}  
             </div>
         )
