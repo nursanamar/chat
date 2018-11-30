@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MessageList } from "react-chat-elements";
-import { getChats,newChat } from "./utils/model/Chat";
+
 import Header from "./Component/Header";
 import { Link } from "react-router-dom";
 
@@ -16,46 +16,20 @@ class ChatRoom extends Component {
     }
 
     componentDidMount(){
-        let chats = getChats(this.param.id);
-        let temp = [];
-        chats.forEach(chat => {
-            
-            temp.push({
-                position: (chat.isSelf) ? 'right' : 'left',
-                type: 'text',
-                text: chat.text,
-                date: new Date(chat.date)
-            })
-        });
-
-        this.setState({
-            chats: temp
-        })
-        
+        this.props.getChats(this.param.id);            
     }
 
 
-    sendChat(){
-        let prevState = this.state.chats;
-        let chat = {
-            position: (true) ? 'right' : 'left',
-            type: 'text',
-            text: this.state.textInput,
-            date: Date.now()
-        }
+    
+    componentWillUnmount(){
+        this.props.clearChats()
+    }
 
-        prevState.push(chat);
+    sendChat(){
+        this.props.sendChat(this.param.id,this.state.textInput);
         this.setState({
-            chat: prevState,
             textInput: ''
         })
-
-        newChat(this.param.id,{
-            text: chat.text,
-            isSelf: true,
-            date: chat.date
-        })
-        
     }
 
     render(){
@@ -73,7 +47,7 @@ class ChatRoom extends Component {
                         className='message-list'
                         lockable={true}
                         toBottomHeight={'100%'}
-                        dataSource={this.state.chats} />
+                        dataSource={this.props.chats} />
                 </div>
                 <div style={{ bottom: 0 }} className="row" >
                     <div className="col-sm-12">

@@ -1,9 +1,9 @@
 import React,{ Component } from "react";
 import { ChatItem } from "react-chat-elements";
 import 'react-chat-elements/dist/main.css';
-import {getMessages} from "./utils/model/Messages";
 import { Link } from "react-router-dom";
 import Header from "./Component/Header";
+import { newChat } from "./utils/model/Chat";
 
 class Message extends Component {
     constructor(props){
@@ -14,16 +14,10 @@ class Message extends Component {
         }
     }
 
-    componentDidMount(){
-        let messages = getMessages();
-        this.setState({
-            messages: messages
-        })   
-    }
 
     render(){
         let chatItems = [];
-        let messages = this.state.messages;
+        let messages = this.props.messages;
         messages.reverse();
         messages.forEach((messege,key) => {
             chatItems.push(
