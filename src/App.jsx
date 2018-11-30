@@ -21,7 +21,7 @@ class App extends Component {
             chats: [],
             currentId: null,
         }
-        this.ws = new WebSocket("ws://fathomless-dusk-76993.herokuapp.com");
+        this.ws = new WebSocket("wss://fathomless-dusk-76993.herokuapp.com");
     }
 
     initWs(id){
